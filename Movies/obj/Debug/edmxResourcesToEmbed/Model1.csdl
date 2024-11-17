@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MovieModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="movy">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="names" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="category" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="userid" Type="Int32" />
+    <Property Name="prod" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="years" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="user" Relationship="Self.FK__movies__userid__3A81B327" FromRole="movies" ToRole="users" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="names" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="movies" Relationship="Self.FK__movies__userid__3A81B327" FromRole="users" ToRole="movies" />
+  </EntityType>
+  <Association Name="FK__movies__userid__3A81B327">
+    <End Role="users" Type="Self.user" Multiplicity="0..1" />
+    <End Role="movies" Type="Self.movy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="movies">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MovieEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="movies" EntityType="Self.movy" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="FK__movies__userid__3A81B327" Association="Self.FK__movies__userid__3A81B327">
+      <End Role="users" EntitySet="users" />
+      <End Role="movies" EntitySet="movies" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
